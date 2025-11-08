@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ============================================
-# 🌩️ StormSenseXU — Evacuation Assistant
+# 🌩️ StormSenseXU: Evacuation Assistant
 # Risk computation · Human-readable summaries · Resource links
 # ============================================
 
