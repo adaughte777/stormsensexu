@@ -83,17 +83,6 @@ for students and families off-campus. In the future, registered Xavier first res
 receive alerts and assist others.
 """)
 
-# Fake test values
-wind_speed = 80         # mph
-hours_to_landfall = 20  # hours
-family_size = 3         # 3 kids
-has_car = False         # no car
-
-risk = compute_risk(wind_speed, hours_to_landfall, family_size, has_car)
-plan = recommend_leave_time(risk)
-
-print("Risk Level:", risk)
-print("Evacuation Plan:", plan)
 
 
 import streamlit as st
