@@ -1,3 +1,89 @@
+# 🌩️ StormSenseXU — Evacuation AI Brain
+### Risk computation · Human-readable summaries · FEMA/NHC integration links
+
+def compute_risk(wind_speed, hours_to_landfall, family_size, has_car,
+                 has_elderly_or_disabled=False, has_pets=False):
+    score = 0
+
+    # wind speed weighting
+    if wind_speed >= 74:        # hurricane force
+        score += 2
+    elif wind_speed >= 40:      # strong storm
+        score += 1
+
+    # time weighting
+    if hours_to_landfall <= 24:
+        score += 2
+    elif hours_to_landfall <= 48:
+        score += 1
+
+    # household factors
+    if family_size > 4:
+        score += 1
+    if not has_car:
+        score += 1
+    if has_elderly_or_disabled:
+        score += 1
+    if has_pets:
+        score += 0.5  # smaller bump, but still matters
+
+    # overall risk category
+    if score >= 5:
+        return "High"
+    elif score >= 3:
+        return "Medium"
+    else:
+        return "Low"
+
+# --- TEST CASE INPUT ---
+wind_speed = 80                # mph
+hours_to_landfall = 20         # hours
+family_size = 3
+has_car = False
+has_elderly_or_disabled = False
+has_pets = True
+
+# --- COMPUTE RISK ---
+risk_level = compute_risk(
+    wind_speed, hours_to_landfall, family_size,
+    has_car, has_elderly_or_disabled, has_pets
+)
+
+print(f"⚠️ Risk Level: {risk_level}")
+
+def generate_summary(wind_speed, hours_to_landfall, family_size, has_car, has_elderly_or_disabled, has_pets, risk_level):
+    reasons = []
+    if family_size > 4:
+        reasons.append("a large family")
+    if not has_car:
+        reasons.append("no car")
+    if has_elderly_or_disabled:
+        reasons.append("an elderly or disabled member")
+    if has_pets:
+        reasons.append("pets")
+
+    if reasons:
+        reason_text = " and ".join(reasons)
+        return f"Because you have {reason_text}, your household’s current storm risk is **{risk_level}**."
+    else:
+        return f"Your household’s current storm risk is **{risk_level}**."
+
+print(generate_summary(wind_speed, hours_to_landfall, family_size, has_car, has_elderly_or_disabled, has_pets, risk_level))
+
+from IPython.display import Markdown
+
+Markdown("""
+### 🛟 Official Emergency Resources
+- [National Hurricane Center](https://www.nhc.noaa.gov/)
+- [FEMA Disaster Recovery Center Locator](https://egateway.fema.gov/ESF6/DRCLocator)
+
+### 💚 Connection to XULASAFE
+StormSenseXU complements Xavier’s **XULASAFE** system by offering personalized risk guidance
+for students and families off-campus. In the future, registered Xavier first responders could
+receive alerts and assist others.
+""")
+
+
 import streamlit as st
 
 st.set_page_config(page_title="StormSenseXU Evacuation Assistant", page_icon="🌀")
